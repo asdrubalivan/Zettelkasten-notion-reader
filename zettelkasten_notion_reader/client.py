@@ -1,5 +1,5 @@
 from pydantic import BaseSettings, SecretStr
-import requests
+import requests_cache
 
 __all__ = ["settings"]
 
@@ -12,6 +12,9 @@ class _Settings(BaseSettings):
 class NotionClient:
     def __init__(self, settings):
         self.settings = settings
+        self.requests = requests_cache.session.CachedSession(
+            allowable_methods=("GET", "POST", "HEAD")
+        )
 
     @property
     def database_id(self):
@@ -24,7 +27,7 @@ class NotionClient:
     def query_database(self):
         url = f"https://api.notion.com/v1/databases/{self.database_id}/query"
 
-        r = requests.post(
+        r = self.requests.post(
             url,
             headers={
                 "Authorization": f"Bearer {self.token}",
