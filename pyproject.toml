@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "poetry-demo"
+name = "zettelkasten-notion-reader"
 version = "0.1.0"
 description = ""
 authors = ["Asdrúbal Iván Suárez Rivera <asdrubal.ivan.suarez.rivera@gmail.com>"]
