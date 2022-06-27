@@ -13,7 +13,7 @@ Use [Poetry](https://python-poetry.org/) and then do `poetry install`
 ## Roadmap
 
 - [X] Reading data from Zettelkasten's database
-- [ ] Add support for rudimentary caching
+- [X] Add support for rudimentary caching
 - [ ] Creating a first graph of the database
 - [ ] Creating an interactive graph, using visualization tools for Machine Learning
     - [ ] Adding the possibility to filter them
