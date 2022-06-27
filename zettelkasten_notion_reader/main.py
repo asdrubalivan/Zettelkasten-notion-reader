@@ -12,6 +12,12 @@ def gather_data():
 
 
 @app.command()
+def create_graphs():
+    client = get_client()
+    print(client.get_graphs())
+
+
+@app.command()
 def clear_cache():
     os.remove("http_cache.sqlite")
 
