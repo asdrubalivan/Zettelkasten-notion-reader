@@ -14,7 +14,7 @@ Use [Poetry](https://python-poetry.org/) and then do `poetry install`
 
 - [X] Reading data from Zettelkasten's database
 - [X] Add support for rudimentary caching
-- [ ] Creating a first graph of the database
+- [X] Creating a first graph of the database
 - [ ] Creating an interactive graph, using visualization tools for Machine Learning
     - [ ] Adding the possibility to filter them
 - [ ] Document the code and all of its functions
