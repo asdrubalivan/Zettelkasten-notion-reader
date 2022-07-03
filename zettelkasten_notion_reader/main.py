@@ -1,6 +1,7 @@
 import typer
 import os
 from client import get_client
+from pyvis.network import Network
 
 app = typer.Typer()
 
@@ -14,7 +15,11 @@ def gather_data():
 @app.command()
 def create_graphs():
     client = get_client()
-    print(client.get_graphs())
+    nx_graph = client.get_graphs()
+    nt = Network("2000px", "2000px")
+    nt.show_buttons(filter_=["physics"])
+    nt.from_nx(nx_graph)
+    nt.show("nx.html")
 
 
 @app.command()

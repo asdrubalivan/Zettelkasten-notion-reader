@@ -1,8 +1,10 @@
 from pydantic import BaseSettings, SecretStr
 import requests_cache
 from datetime import timedelta, datetime
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import List
+import networkx as nx
+import itertools as it
 
 __all__ = ["get_client"]
 
@@ -15,6 +17,9 @@ class Zettel:
     links_to: List[str]
     tags: List[str]
     last_edited: str
+
+    def to_dict(self):
+        return asdict(self)
 
 
 class _Settings(BaseSettings):
@@ -55,7 +60,7 @@ class NotionClient:
 
     def get_graphs(self, query=None):
         data = self.query_database(query)
-        create_graphs(data["results"])
+        return create_graphs(data["results"])
 
 
 def get_client():
@@ -97,6 +102,20 @@ def map_graph(page):
 def create_graphs(pages):
     ordered_pages = {p["id"]: map_graph(p) for p in pages}
 
-    from pprint import pprint
+    graph = nx.Graph()
+    add_node = graph.add_node
+    for key, data in ordered_pages.items():
+        add_node(
+            key,
+            data=data.to_dict(),
+            title=data.title,
+            label=data.title,
+        )
 
-    pprint(ordered_pages)
+    graph.add_edges_from(
+        it.chain.from_iterable(
+            zip(it.repeat(node.id), node.links_to) for node in ordered_pages.values()
+        )
+    )
+
+    return graph
